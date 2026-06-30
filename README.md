@@ -2,7 +2,7 @@
 
 Single-page marketing site for **AOJ Service** (Jerry Ajayi Enterprise), Ogun State, Nigeria — one brand with two arms of expertise:
 
-- **Fluent Door** — online French training (beginner to advanced, DELF/DALF/TEF prep)
+- **Fluent Door** — online French & Yoruba language tutoring (beginner to advanced, DELF/DALF/TEF prep)
 - **Bookpreneur** — turning knowledge into published digital books
 - **AOJWater** — certified plumbing, renovation & facility maintenance
 
@@ -53,6 +53,6 @@ python3 -m http.server 8000   # then visit http://localhost:8000
 
 ## Contact
 
-- WhatsApp: 0805 148 1014 · 0807 205 3039
+- WhatsApp: 0805 148 1013 · 0807 205 3039
 - Email: aojwater@gmail.com
 - 12 Peace Avenue, Okepa Abule, Mowe–Pakuro Road, Ogun State, Nigeria
