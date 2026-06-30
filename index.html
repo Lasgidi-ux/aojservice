@@ -428,6 +428,43 @@
   @media(prefers-reduced-motion:reduce){
     .hero-aurora i,.scroll-cue .line::after,.fab .ping{animation:none}
   }
+
+  /* ---- Custom scrollbar ---- */
+  html{scrollbar-color:var(--petrol) var(--bone-2);scrollbar-width:thin}
+  ::-webkit-scrollbar{width:11px;height:11px}
+  ::-webkit-scrollbar-track{background:var(--bone-2)}
+  ::-webkit-scrollbar-thumb{background:var(--petrol);border-radius:20px;border:3px solid var(--bone-2)}
+  ::-webkit-scrollbar-thumb:hover{background:var(--petrol-2)}
+
+  /* ---- Service index numbers (01 — / 02 — / 03 —) ---- */
+  #services{counter-reset:svc}
+  .svc{counter-increment:svc}
+  .svc-body .kicker::before{content:"0" counter(svc) "  \2014  ";font-family:var(--display);
+    font-style:normal;font-weight:600;color:var(--accent)}
+
+  /* ---- Side section-dot navigator ---- */
+  .dotnav{position:fixed;right:20px;top:50%;transform:translateY(-50%);z-index:45;
+    display:flex;flex-direction:column;gap:15px;align-items:flex-end}
+  .dotnav a{display:flex;align-items:center;gap:10px;text-decoration:none;cursor:pointer}
+  .dotnav .dn-label{font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600;
+    color:var(--ink);background:rgba(243,241,235,.92);backdrop-filter:blur(6px);
+    padding:4px 10px;border-radius:20px;border:1px solid var(--line);
+    opacity:0;transform:translateX(8px);transition:.32s var(--ez);white-space:nowrap;pointer-events:none}
+  .dotnav .dn-dot{width:9px;height:9px;border-radius:50%;border:1.5px solid rgba(120,120,120,.7);
+    background:transparent;transition:.32s var(--ez);flex:0 0 auto}
+  .dotnav a:hover .dn-label{opacity:1;transform:none}
+  .dotnav a:hover .dn-dot{border-color:var(--accent)}
+  .dotnav a.on .dn-dot{background:var(--accent);border-color:var(--accent);transform:scale(1.35)}
+  .dotnav a.on .dn-label{opacity:1;transform:none}
+  @media(max-width:1100px){.dotnav{display:none}}
+
+  /* ---- Oversized footer brand watermark ---- */
+  footer{position:relative;overflow:hidden}
+  .footer-watermark{position:absolute;left:50%;bottom:-2.2vw;transform:translateX(-50%);
+    z-index:0;pointer-events:none;user-select:none;font-family:var(--serif);font-weight:500;
+    font-size:clamp(5rem,23vw,21rem);line-height:.78;color:rgba(255,255,255,.045);
+    letter-spacing:-.03em;white-space:nowrap}
+  footer .wrap{position:relative;z-index:1}
 </style>
 </head>
 <body>
@@ -703,7 +740,7 @@
         <div class="about-body" data-rise>
           <span class="eyebrow">The people behind it</span>
           <h2>Two decades of teaching. A decade on the tools.</h2>
-          <p>AOJ Service is led by founder Ajayi-Aribire Jeremiah (JeremiahEffect), alongside co-founder Ajayi-Aribire Dasola (Dasola Effect). For twenty years Jeremiah has taught French and Yoruba and helped people publish their work; for ten he has run plumbing and facility projects across Ogun State.</p>
+          <p>AOJ Service is led by founder Ajayi-Aribire Jeremiah, alongside co-founder Ajayi-Aribire Dasola. For twenty years Jeremiah has taught French and Yoruba and helped people publish their work; for ten he has run plumbing and facility projects across Ogun State.</p>
           <p>It is an unusual pairing — and a deliberate one. The belief is simple: language and knowledge open doors, and well-kept spaces protect what people build behind them. AOJ Service does both, properly.</p>
           <p class="sig">Jeremiah &amp; Dasola Ajayi-Aribire<small>Founder &amp; Co-founder, AOJ Service</small></p>
         </div>
@@ -749,7 +786,16 @@
   </section>
 </main>
 
+<nav class="dotnav" id="dotnav" aria-label="Section navigation">
+  <a href="#services" data-sec="services"><span class="dn-label">Services</span><span class="dn-dot"></span></a>
+  <a href="#work" data-sec="work"><span class="dn-label">Work</span><span class="dn-dot"></span></a>
+  <a href="#voices" data-sec="voices"><span class="dn-label">Voices</span><span class="dn-dot"></span></a>
+  <a href="#about" data-sec="about"><span class="dn-label">About</span><span class="dn-dot"></span></a>
+  <a href="#contact" data-sec="contact"><span class="dn-label">Contact</span><span class="dn-dot"></span></a>
+</nav>
+
 <footer>
+  <div class="footer-watermark" aria-hidden="true">AOJ&nbsp;Service</div>
   <div class="wrap">
     <div class="ftop">
       <div><div class="brand">AOJ&nbsp;Service</div><p class="ftag">Language and publishing, plus plumbing and facility care — one trusted name in Ogun State, Nigeria.</p></div>
@@ -1098,6 +1144,25 @@
       clearTimeout(safety);
     }catch(err){ console.warn(err); forceShow(); setCountsFinal(); clearTimeout(safety); }
   });
+})();
+</script>
+
+<script>
+/* Side section-dot navigator — independent of GSAP, progressive enhancement */
+(function(){
+  var dn=document.getElementById('dotnav'); if(!dn || !('IntersectionObserver' in window)) return;
+  var links=[].slice.call(dn.querySelectorAll('a')), map={};
+  links.forEach(function(a){ map[a.getAttribute('data-sec')]=a; });
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        var a=map[e.target.id]; if(!a) return;
+        links.forEach(function(l){ l.classList.remove('on'); });
+        a.classList.add('on');
+      }
+    });
+  },{rootMargin:'-45% 0px -45% 0px',threshold:0});
+  Object.keys(map).forEach(function(id){ var el=document.getElementById(id); if(el) io.observe(el); });
 })();
 </script>
 </body>
